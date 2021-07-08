@@ -8,9 +8,9 @@
       (bootstrap-version 5))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
+	(url-retrieve-synchronously
+	 "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+	 'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
@@ -19,9 +19,24 @@
 
 (setq auto-save-default nil)
 
+(add-to-list 'load-path "~/.emacs.d/config")
+
+(load "global-bindings")
+
 (use-package company
   :config
+  (add-hook 'prog-mode-hook #'company-mode)
   (message "config company-mode"))
+
+
+(use-package magit)
+
+(add-hook 'prog-mode-hook #'electric-pair-mode)
+
+(add-hook 'before-save-hook #'whitespace-cleanup)
+
+
+(use-package restart-emacs)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
