@@ -43,6 +43,8 @@
 (add-hook 'prog-mode-hook #'show-paren-mode)
 (add-hook 'before-save-hook #'whitespace-cleanup)
 
+(projectile-global-mode)
+
 (use-package restart-emacs)
 
 (custom-set-variables
