@@ -28,7 +28,6 @@
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (setq projectile-project-search-path '("~/Projects/")))
 
-
 (use-package company
   :config
   (add-hook 'prog-mode-hook #'company-mode)
