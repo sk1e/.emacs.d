@@ -1,5 +1,4 @@
 (defvar straight-vc-git-default-protocol 'ssh)
-
 (defvar straight-use-package-by-default t)
 
 (defvar bootstrap-version)
@@ -18,6 +17,9 @@
 (straight-use-package 'use-package)
 
 (setq auto-save-default nil)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
 
 (add-to-list 'load-path "~/.emacs.d/config")
 
