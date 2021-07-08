@@ -11,3 +11,8 @@
    (interactive)
     (let ((last-command-event ?\())
       (call-interactively 'self-insert-command))))
+
+(global-set-key (kbd "M-d") 'windmove-right)
+(global-set-key (kbd "M-a") 'windmove-left)
+(global-set-key (kbd "M-w") 'windmove-up)
+(global-set-key (kbd "M-s") 'windmove-down)

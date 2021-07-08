@@ -30,13 +30,20 @@
   (add-hook 'prog-mode-hook #'company-mode)
   (message "config company-mode"))
 
-
 (use-package magit)
 
 (add-hook 'prog-mode-hook #'electric-pair-mode)
-
 (add-hook 'before-save-hook #'whitespace-cleanup)
 
+(use-package treemacs
+  :config
+  (global-set-key
+   (kbd "s-t")
+   (lambda ()
+     (interactive)
+     (let ((win (selected-window)))
+       (treemacs)
+       (select-window win)))))
 
 (use-package restart-emacs)
 
