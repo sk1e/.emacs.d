@@ -31,7 +31,111 @@
     (select-window win)))
 
 (use-package treemacs
-  :bind (("s-t" . treemacs-ext:show-tree)))
+  :bind (("s-t" . treemacs-ext:show-tree))
+  :requires projectile
+  :config
+  (let ((space-map (make-sparse-keymap)))
+    (mapc (lambda (key) (define-key space-map (kbd key) (treemacs-ext:make-node-binder key)))
+	  '("<f1>" "<f2>" "<f3>" "1" "2" "3" "4"))
+    (define-key treemacs-mode-map (kbd "SPC") space-map)))
+
+
+(defun treemacs-ext:make-line-opener-from-navigator (navigator)
+  (lambda ()
+    (interactive)
+    (with-selected-window (treemacs-get-local-window)
+      (funcall navigator 1)
+      (treemacs-goto-node (treemacs-safe-button-get (treemacs-current-button) :path)))))
+
+(defun treemacs-ext:make-neighbour-opener-from-navigator (navigator count)
+  (lambda ()
+    (interactive)
+    (with-selected-window (treemacs-get-local-window)
+      (cl-loop repeat count
+	       do (funcall navigator))
+      (treemacs-goto-node (treemacs-safe-button-get (treemacs-current-button) :path)))))
+
+(defun treemacs-ext:make-local-neighbour-opener-from-navigator (navigator count)
+  (lambda ()
+    (interactive)
+    (cl-loop repeat count
+	     do (funcall navigator))))
+
+
+(defun treemacs-ext:make-node-opener (path)
+  (lambda ()
+    (interactive)
+    (cond
+     ((file-directory-p path) (treemacs-ext:goto-node (or (treemacs-ext:get-recent-descendant path) path)))
+     (t (treemacs-ext:goto-node path)))))
+
+(defun treemacs-ext:goto-node (path)
+  (with-selected-window (treemacs-get-local-window)
+    (treemacs-goto-node path)
+    (treemacs-visit-node-default)))
+
+(defvar treemacs-ext:recent-project-files nil)
+
+(defun treemacs-ext:save-current-buffer-file-path (&optional _)
+  (when-let ((path (buffer-file-name (current-buffer))))
+    (setq treemacs-ext:recent-project-files (cons path (cl-delete path treemacs-ext:recent-project-files)))
+    (treemacs-ext:save-recent-files-storage treemacs-ext:recent-project-files)))
+
+(advice-add 'treemacs-visit-node-default :after #'treemacs-ext:save-current-buffer-file-path)
+
+(defun treemacs-ext:get-recent-descendant (path)
+  (cl-find-if (lambda (x) (s-starts-with-p path x))
+	      treemacs-ext:recent-project-files))
+
+(defun treemacs-ext:make-node-binder (key)
+  (lambda ()
+    (interactive)
+    (let ((storage (treemacs-ext:load-binding-storage))
+	  (path (treemacs-safe-button-get (treemacs-current-button) :path)))
+      (treemacs-ext:save-binding-storage (cons (cons key path)
+					       (assoc-delete-all key storage)))
+      (global-set-key (kbd (format "s-%s" key)) (treemacs-ext:make-node-opener path)))))
+
+(defconst treemacs-ext:binding-storage-filename ".binding-storage")
+(defconst treemacs-ext:recent-files-storage-filename ".recent-files-storage")
+
+(defun treemacs-ext:init-bindings-from-storage ()
+  (message "init-bindings")
+  (mapc (lambda (binding-pair)
+	  (cl-destructuring-bind (key . path) binding-pair
+	    (global-set-key (kbd (format "s-%s" key)) (treemacs-ext:make-node-opener path))))
+	(treemacs-ext:load-binding-storage)))
+
+(defun treemacs-ext:get-binding-storage-path ()
+  (projectile-expand-root treemacs-ext:binding-storage-filename))
+
+(defun treemacs-ext:get-recent-files-storage-path ()
+  (projectile-expand-root treemacs-ext:recent-files-storage-filename))
+
+(defun treemacs-ext:save-binding-storage (storage-data)
+  (with-temp-file (treemacs-ext:get-binding-storage-path)
+    (insert (format "%S" storage-data))))
+
+(defun treemacs-ext:save-recent-files-storage (storage-data)
+  (with-temp-file (treemacs-ext:get-recent-files-storage-path)
+    (insert (format "%S" storage-data))))
+
+(defun treemacs-ext:load-binding-storage ()
+  (cond
+   ((file-exists-p (treemacs-ext:get-binding-storage-path))
+    (with-temp-buffer
+      (insert-file-contents (treemacs-ext:get-binding-storage-path))
+      (read (current-buffer))))
+   (t '())))
+
+(defun treemacs-ext:load-recent-files-storage ()
+  (setq treemacs-ext:recent-project-files
+	(cond
+	 ((file-exists-p (treemacs-ext:get-recent-files-storage-path))
+	  (with-temp-buffer
+	    (insert-file-contents (treemacs-ext:get-recent-files-storage-path))
+	    (read (current-buffer))))
+	 (t '()))))
 
 (provide 'treemacs-ext)
 ;;; treemacs-ext.el ends here

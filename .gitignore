@@ -3,3 +3,6 @@ straight/
 transient/
 .cache/
 .local/
+.binding-storage
+.recent-files-storage
+projectile-bookmarks.eld

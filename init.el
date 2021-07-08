@@ -23,8 +23,11 @@
 
 (add-to-list 'load-path "~/.emacs.d/config")
 
-(load "global-bindings")
-(load "treemacs-ext")
+(use-package projectile
+  :config
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (setq projectile-project-search-path '("~/Projects/")))
+
 
 (use-package company
   :config
@@ -32,13 +35,16 @@
   (message "config company-mode"))
 
 (use-package magit)
+(use-package s)
+
+(load "global-bindings")
+(load "treemacs-ext")
 
 (add-hook 'prog-mode-hook #'electric-pair-mode)
 (add-hook 'prog-mode-hook #'show-paren-mode)
 (add-hook 'before-save-hook #'whitespace-cleanup)
 
 (use-package restart-emacs)
-(use-package hydra)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
