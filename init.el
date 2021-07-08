@@ -34,6 +34,7 @@
 (use-package magit)
 
 (add-hook 'prog-mode-hook #'electric-pair-mode)
+(add-hook 'prog-mode-hook #'show-paren-mode)
 (add-hook 'before-save-hook #'whitespace-cleanup)
 
 (use-package restart-emacs)
