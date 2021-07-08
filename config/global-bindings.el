@@ -16,3 +16,5 @@
 (global-set-key (kbd "M-a") 'windmove-left)
 (global-set-key (kbd "M-w") 'windmove-up)
 (global-set-key (kbd "M-s") 'windmove-down)
+
+(global-set-key (kbd "C-q") 'delete-other-windows)
