@@ -43,6 +43,16 @@
 (add-hook 'prog-mode-hook #'show-paren-mode)
 (add-hook 'before-save-hook #'whitespace-cleanup)
 
+(use-package typescript-mode)
+(use-package web-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.[jt]sx\\'" . web-mode)))
+
+(use-package lsp-mode
+  :config
+  (add-hook 'typescript-mode-hook #'lsp)
+  (add-hook 'web-mode-hook #'lsp))
+
 (projectile-global-mode)
 
 (use-package restart-emacs)
@@ -52,6 +62,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(lsp-auto-guess-root t)
+ '(lsp-headerline-breadcrumb-enable nil)
  '(make-backup-files nil)
  '(safe-local-variable-values '((git-commit-major-mode . git-commit-elisp-text-mode))))
 (custom-set-faces
