@@ -1,3 +1,29 @@
+;;; init.el --- emacs config initialization file   -*- lexical-binding: t; -*-
+
+;; Copyright (C) 2021  kotik
+
+;; Author: kotik <kotik@kotik-one>
+;; Keywords:
+
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+;;; Commentary:
+
+;;
+
+;;; Code:
+
 (defvar straight-vc-git-default-protocol 'ssh)
 (defvar straight-use-package-by-default t)
 
@@ -17,6 +43,7 @@
 (straight-use-package 'use-package)
 
 (setq auto-save-default nil)
+(setq create-lockfiles nil)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -26,7 +53,12 @@
 (use-package projectile
   :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (setq projectile-project-search-path '("~/Projects/")))
+  (setq projectile-project-search-path '("~/Projects/"))
+  (projectile-global-mode)
+  (add-hook 'projectile-after-switch-project-hook
+	    #'treemacs-ext:init-bindings-from-storage)
+  (add-hook 'projectile-after-switch-project-hook
+	    #'treemacs-ext:load-recent-files-storage))
 
 (use-package company
   :config
@@ -51,11 +83,39 @@
 (use-package lsp-mode
   :config
   (add-hook 'typescript-mode-hook #'lsp)
-  (add-hook 'web-mode-hook #'lsp))
+  (add-hook 'web-mode-hook #'lsp)
 
-(projectile-global-mode)
+  (let ((markers '()))
+    (defun lsp-ext:goto-definition ()
+      (interactive)
+      (push (point-marker) markers)
+      (lsp-find-definition))
+
+    (defun lsp-ext:return ()
+      (interactive)
+      (cond
+       ((eq nil markers) (message "End of goto stack"))
+       (t (switch-to-buffer (marker-buffer (car markers)))
+	  (goto-char (car markers))
+	  (recenter)
+	  (setq markers (cdr markers))))))
+
+
+  (define-key lsp-mode-map (kbd "s-<f11>") #'lsp-ext:goto-definition)
+  (define-key lsp-mode-map (kbd "s-<f12>") #'lsp-ext:return))
+
+(use-package lsp-ui)
+(use-package counsel)
+
+(use-package helm
+  :config
+  (add-hook 'prog-mode 'helm-mode))
+
+(use-package helm-lsp)
+(use-package helm-projectile)
 
 (use-package restart-emacs)
+(use-package flycheck)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -71,4 +131,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:inherit nil :extend nil :stipple nil :background "#232629" :foreground "gainsboro" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 113 :width normal :foundry "PfEd" :family "DejaVu Sans Mono"))))
+ '(font-lock-comment-face ((t (:foreground "CadetBlue4"))))
+ '(font-lock-function-name-face ((t (:foreground "DodgerBlue1"))))
+ '(font-lock-keyword-face ((t (:foreground "slate blue"))))
+ '(font-lock-string-face ((t (:foreground "forest green"))))
+ '(font-lock-variable-name-face ((t (:inherit default)))))
