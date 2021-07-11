@@ -133,6 +133,11 @@
 (use-package restart-emacs)
 (use-package flycheck)
 
+(use-package which-key
+  :config
+  (add-hook 'text-mode-hook #'which-key-mode)
+  (add-hook 'prog-mode-hook #'which-key-mode))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
