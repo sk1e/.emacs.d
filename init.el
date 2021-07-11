@@ -105,14 +105,30 @@
   (define-key lsp-mode-map (kbd "s-<f12>") #'lsp-ext:return))
 
 (use-package lsp-ui)
-(use-package counsel)
+(use-package counsel
+  :bind (("M-y" . #'counsel-yank-pop)))
 
 (use-package helm
   :config
-  (add-hook 'prog-mode 'helm-mode))
+  (add-hook 'prog-mode 'helm-mode)
+  :bind (("C-x b" . #'helm-buffer-list)
+	 ("C-c b" . #'helm-bookmarks)
+	 ("<menu>" . #'helm-M-x)
+	 ("M-x" . #'helm-M-x)
+	 ("C-c i" . #'helm-imenu)
+	 ("C-s" . #'helm-occur)))
 
-(use-package helm-lsp)
+ (use-package helm-lsp
+  :bind (("C-c d" . #'helm-lsp-diagnostics)))
+
 (use-package helm-projectile)
+(use-package lsp-treemacs
+  :config
+  (lsp-treemacs-sync-mode 1))
+
+
+(use-package helm-rg
+  :bind (("C-c s" . #'helm-rg)))
 
 (use-package restart-emacs)
 (use-package flycheck)
