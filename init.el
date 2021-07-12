@@ -126,9 +126,8 @@
   :config
   (lsp-treemacs-sync-mode 1))
 
-
-(use-package helm-rg
-  :bind (("C-c s" . #'helm-rg)))
+(use-package rg
+  :bind (("C-c s" . #'rg-menu)))
 
 (use-package restart-emacs)
 (use-package flycheck)
