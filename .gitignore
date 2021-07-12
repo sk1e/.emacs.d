@@ -6,3 +6,5 @@ transient/
 .binding-storage
 .recent-files-storage
 projectile-bookmarks.eld
+.lsp-session-v1
+bookmarks
