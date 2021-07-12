@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: ss-props
+# key: ss-props
+# --
+const { $0 } = this.props;

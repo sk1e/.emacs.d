@@ -60,7 +60,6 @@
 				  (with-selected-window (treemacs-get-local-window)
 				    (treemacs-RET-action)))))
 
-
 (defun treemacs-ext:make-line-opener-from-navigator (navigator)
   (lambda ()
     (interactive)
@@ -121,7 +120,6 @@
 (defconst treemacs-ext:recent-files-storage-filename ".recent-files-storage")
 
 (defun treemacs-ext:init-bindings-from-storage ()
-  (message "init-bindings")
   (mapc (lambda (binding-pair)
 	  (cl-destructuring-bind (key . path) binding-pair
 	    (global-set-key (kbd (format "s-%s" key)) (treemacs-ext:make-node-opener path))))

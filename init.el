@@ -63,8 +63,7 @@
 
 (use-package company
   :config
-  (add-hook 'prog-mode-hook #'company-mode)
-  (message "config company-mode"))
+  (add-hook 'prog-mode-hook #'company-mode))
 
 (use-package magit)
 (use-package s)
@@ -94,10 +93,12 @@
 	 ("C-h f" . #'counsel-describe-function)
 	 ("C-h v" . #'counsel-describe-variable)))
 
+(load "ivy-rich-config")
+
 (use-package helm
   :config
   (add-hook 'prog-mode 'helm-mode)
-  :bind (("C-x b" . #'helm-buffer-list)
+  :bind (("C-x b" . #'helm-buffers-list)
 	 ("C-c b" . #'helm-bookmarks)
 	 ("<menu>" . #'helm-M-x)
 	 ("M-x" . #'helm-M-x)
@@ -128,6 +129,13 @@
 	 ("M-<down>" . #'drag-stuff-down)
 	 ("M-<left>" . #'drag-stuff-left)
 	 ("M-<right>" . #'drag-stuff-right)))
+
+(use-package yasnippet
+  :config
+  (yas-global-mode 1)
+
+  (add-hook 'web-mode-hook (lambda () (add-to-list 'company-backends '(company-capf company-yasnippet))))
+  )
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

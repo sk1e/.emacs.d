@@ -1,0 +1,22 @@
+# -*- mode: snippet -*-
+# name: ss-comp
+# key: ss-comp
+# --
+import React from 'react';
+
+import { block } from 'utils/classname';
+
+import './style.scss';
+
+const b = block('`(camel-case->lisp-case (containing-directory))`');
+
+type Props = {}
+
+function `(containing-directory)`({}: Props) {
+  return (
+  );
+}
+
+const Component = React.memo(`(containing-directory)`);
+
+export { Component as `(containing-directory)` }
