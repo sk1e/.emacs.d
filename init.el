@@ -123,6 +123,12 @@
   (add-hook 'text-mode-hook #'which-key-mode)
   (add-hook 'prog-mode-hook #'which-key-mode))
 
+(use-package drag-stuff
+  :bind (("M-<up>" . #'drag-stuff-up)
+	 ("M-<down>" . #'drag-stuff-down)
+	 ("M-<left>" . #'drag-stuff-left)
+	 ("M-<right>" . #'drag-stuff-right)))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
