@@ -20,3 +20,7 @@
 
 (global-set-key (kbd "C-,") #'(lambda () (interactive) (scroll-down 3)))
 (global-set-key (kbd "C-.") #'(lambda () (interactive) (scroll-up 3)))
+
+
+(global-set-key (kbd "s-<f11>") #'xref-find-definitions)
+(global-set-key (kbd "s-<f12>") #'xref-pop-marker-stack)

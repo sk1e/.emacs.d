@@ -47,6 +47,7 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
+(delete-selection-mode 1)
 
 (add-to-list 'load-path "~/.emacs.d/config")
 
@@ -83,30 +84,15 @@
 (use-package lsp-mode
   :config
   (add-hook 'typescript-mode-hook #'lsp)
-  (add-hook 'web-mode-hook #'lsp)
-
-  (let ((markers '()))
-    (defun lsp-ext:goto-definition ()
-      (interactive)
-      (push (point-marker) markers)
-      (lsp-find-definition))
-
-    (defun lsp-ext:return ()
-      (interactive)
-      (cond
-       ((eq nil markers) (message "End of goto stack"))
-       (t (switch-to-buffer (marker-buffer (car markers)))
-	  (goto-char (car markers))
-	  (recenter)
-	  (setq markers (cdr markers))))))
-
-
-  (define-key lsp-mode-map (kbd "s-<f11>") #'lsp-ext:goto-definition)
-  (define-key lsp-mode-map (kbd "s-<f12>") #'lsp-ext:return))
+  (add-hook 'web-mode-hook #'lsp))
 
 (use-package lsp-ui)
+
 (use-package counsel
-  :bind (("M-y" . #'counsel-yank-pop)))
+  :bind (("M-y" . #'counsel-yank-pop)
+	 ("C-x C-f" . #'counsel-find-file)
+	 ("C-h f" . #'counsel-describe-function)
+	 ("C-h v" . #'counsel-describe-variable)))
 
 (use-package helm
   :config
