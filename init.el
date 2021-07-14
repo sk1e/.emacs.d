@@ -42,12 +42,18 @@
 
 (straight-use-package 'use-package)
 
-(setq auto-save-default nil)
-(setq create-lockfiles nil)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (delete-selection-mode 1)
+
+(setq display-time-default-load-average nil)
+(setq display-time-format "%H:%M, %a, %d")
+
+(display-time-mode)
+
+(setq auto-save-default nil)
+(setq create-lockfiles nil)
 (setq-default indent-tabs-mode nil)
 
 (add-to-list 'load-path "~/.emacs.d/config")
@@ -71,6 +77,7 @@
 
 (load "global-bindings")
 (load "treemacs-ext")
+(load "utils")
 
 (add-hook 'prog-mode-hook #'electric-pair-mode)
 (add-hook 'prog-mode-hook #'show-paren-mode)
@@ -140,6 +147,10 @@
 
   (add-hook 'web-mode-hook (lambda () (add-to-list 'company-backends '(company-capf company-yasnippet)))))
 
+(use-package doom-modeline
+  :config
+  (doom-modeline-mode 1))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -167,4 +178,5 @@
  '(fringe ((t (:background "gray15"))))
  '(lsp-modeline-code-actions-face ((t (:foreground "dark cyan"))))
  '(lsp-treemacs-file-error ((t (:inherit nil :foreground "firebrick"))))
- '(minibuffer-prompt ((t (:foreground "SlateBlue1")))))
+ '(minibuffer-prompt ((t (:foreground "SlateBlue1"))))
+ '(mode-line ((t (:background "gray25" :foreground "white smoke" :box (:line-width -1 :style released-button))))))
