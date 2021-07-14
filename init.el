@@ -33,9 +33,9 @@
       (bootstrap-version 5))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
-	(url-retrieve-synchronously
-	 "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-	 'silent 'inhibit-cookies)
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
@@ -48,6 +48,7 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (delete-selection-mode 1)
+(setq-default indent-tabs-mode nil)
 
 (add-to-list 'load-path "~/.emacs.d/config")
 
@@ -57,9 +58,9 @@
   (setq projectile-project-search-path '("~/Projects/"))
   (projectile-global-mode)
   (add-hook 'projectile-after-switch-project-hook
-	    #'treemacs-ext:init-bindings-from-storage)
+            #'treemacs-ext:init-bindings-from-storage)
   (add-hook 'projectile-after-switch-project-hook
-	    #'treemacs-ext:load-recent-files-storage))
+            #'treemacs-ext:load-recent-files-storage))
 
 (use-package company
   :config
@@ -81,6 +82,7 @@
   (add-to-list 'auto-mode-alist '("\\.[jt]sx\\'" . web-mode)))
 
 (use-package lsp-mode
+  :bind (("C-c f" . #'lsp-format-buffer))
   :config
   (add-hook 'typescript-mode-hook #'lsp)
   (add-hook 'web-mode-hook #'lsp))
@@ -89,9 +91,12 @@
 
 (use-package counsel
   :bind (("M-y" . #'counsel-yank-pop)
-	 ("C-x C-f" . #'counsel-find-file)
-	 ("C-h f" . #'counsel-describe-function)
-	 ("C-h v" . #'counsel-describe-variable)))
+         ("C-x C-f" . #'counsel-find-file)
+         ("C-h f" . #'counsel-describe-function)
+         ("C-h v" . #'counsel-describe-variable)
+         ("<menu>" . #'counsel-M-x)
+         ("M-x" . #'counsel-M-x)
+         ("C-s" . #'swiper)))
 
 (load "ivy-rich-config")
 
@@ -99,11 +104,8 @@
   :config
   (add-hook 'prog-mode 'helm-mode)
   :bind (("C-x b" . #'helm-buffers-list)
-	 ("C-c b" . #'helm-bookmarks)
-	 ("<menu>" . #'helm-M-x)
-	 ("M-x" . #'helm-M-x)
-	 ("C-c i" . #'helm-imenu)
-	 ("C-s" . #'helm-occur)))
+         ("C-c b" . #'helm-bookmarks)
+         ("C-c i" . #'helm-imenu)))
 
  (use-package helm-lsp
   :bind (("C-c d" . #'helm-lsp-diagnostics)))
@@ -117,7 +119,9 @@
   :bind (("C-c s" . #'rg-menu)))
 
 (use-package restart-emacs)
-(use-package flycheck)
+(use-package flycheck
+  :bind (("<f9>" . #'flycheck-previous-error)
+         ("<f10>" . #'flycheck-next-error)))
 
 (use-package which-key
   :config
@@ -126,16 +130,15 @@
 
 (use-package drag-stuff
   :bind (("M-<up>" . #'drag-stuff-up)
-	 ("M-<down>" . #'drag-stuff-down)
-	 ("M-<left>" . #'drag-stuff-left)
-	 ("M-<right>" . #'drag-stuff-right)))
+         ("M-<down>" . #'drag-stuff-down)
+         ("M-<left>" . #'drag-stuff-left)
+         ("M-<right>" . #'drag-stuff-right)))
 
 (use-package yasnippet
   :config
   (yas-global-mode 1)
 
-  (add-hook 'web-mode-hook (lambda () (add-to-list 'company-backends '(company-capf company-yasnippet))))
-  )
+  (add-hook 'web-mode-hook (lambda () (add-to-list 'company-backends '(company-capf company-yasnippet)))))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -145,15 +148,23 @@
  '(lsp-auto-guess-root t)
  '(lsp-headerline-breadcrumb-enable nil)
  '(make-backup-files nil)
- '(safe-local-variable-values '((git-commit-major-mode . git-commit-elisp-text-mode))))
+ '(safe-local-variable-values '((git-commit-major-mode . git-commit-elisp-text-mode)))
+ '(standard-indent 2)
+ '(web-mode-code-indent-offset 2)
+ '(web-mode-markup-indent-offset 2))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :extend nil :stipple nil :background "#232629" :foreground "gainsboro" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 113 :width normal :foundry "PfEd" :family "DejaVu Sans Mono"))))
+ '(default ((t (:inherit nil :extend nil :stipple nil :background "gray15" :foreground "gainsboro" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 113 :width normal :foundry "PfEd" :family "DejaVu Sans Mono"))))
+ '(error ((t (:foreground "red3" :weight bold))))
  '(font-lock-comment-face ((t (:foreground "CadetBlue4"))))
  '(font-lock-function-name-face ((t (:foreground "DodgerBlue1"))))
  '(font-lock-keyword-face ((t (:foreground "slate blue"))))
  '(font-lock-string-face ((t (:foreground "forest green"))))
- '(font-lock-variable-name-face ((t (:inherit default)))))
+ '(font-lock-variable-name-face ((t (:inherit default))))
+ '(fringe ((t (:background "gray15"))))
+ '(lsp-modeline-code-actions-face ((t (:foreground "dark cyan"))))
+ '(lsp-treemacs-file-error ((t (:inherit nil :foreground "firebrick"))))
+ '(minibuffer-prompt ((t (:foreground "SlateBlue1")))))
