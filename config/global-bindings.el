@@ -18,9 +18,15 @@
 
 (global-set-key (kbd "C-q") #'delete-other-windows)
 
-(global-set-key (kbd "C-,") #'(lambda () (interactive) (scroll-down 3)))
-(global-set-key (kbd "C-.") #'(lambda () (interactive) (scroll-up 3)))
+(global-set-key (kbd "C-,") (lambda () (interactive) (scroll-down 3)))
+(global-set-key (kbd "C-.") (lambda () (interactive) (scroll-up 3)))
 
 
 (global-set-key (kbd "s-<f11>") #'xref-find-definitions)
 (global-set-key (kbd "s-<f12>") #'xref-pop-marker-stack)
+
+(global-set-key (kbd "s-=") #'company-complete)
+
+(define-key emacs-lisp-mode-map (kbd "C-d") (lambda ()
+                                              (interactive)
+                                              (describe-function (function-called-at-point))))
