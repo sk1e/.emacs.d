@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: style
+# key: style
+# --
+.`(s-dashed-words (containing-directory))` {
+  display: block;
+}

@@ -30,25 +30,34 @@
     (treemacs)
     (select-window win)))
 
+(defun treemacs-ext:kill-buffers-for-deleted-node (path)
+  (let ((files-with-buffers-to-kill
+         (-filter (lambda (x) (s-starts-with? path x))
+                  (mapcar #'buffer-file-name (buffer-list)))))
+    (mapc (lambda (x) (kill-buffer (get-file-buffer x)))
+          files-with-buffers-to-kill)))
+
 (use-package treemacs
   :bind (("s-t" . treemacs-ext:show-tree))
-  :requires projectile
+  :requires (projectile file-template)
   :config
+  (add-hook 'treemacs-delete-file-functions #'treemacs-ext:kill-buffers-for-deleted-node)
+
   (let ((space-map (make-sparse-keymap)))
     (mapc (lambda (key) (define-key space-map (kbd key) (treemacs-ext:make-node-binder key)))
-	  '("<f1>" "<f2>" "<f3>" "1" "2" "3" "4"))
+          '("<f1>" "<f2>" "<f3>" "1" "2" "3" "4"))
     (define-key treemacs-mode-map (kbd "SPC") space-map))
   (define-key treemacs-mode-map (kbd "`") #'treemacs-goto-parent-node)
   (define-key treemacs-mode-map (kbd "[") (treemacs-ext:make-local-neighbour-opener-from-navigator #'treemacs-previous-neighbour 1))
   (define-key treemacs-mode-map (kbd "]") (treemacs-ext:make-local-neighbour-opener-from-navigator #'treemacs-next-neighbour 1))
   (define-key treemacs-mode-map (kbd "M-[") (treemacs-ext:make-local-neighbour-opener-from-navigator #'treemacs-previous-neighbour 4))
   (define-key treemacs-mode-map (kbd "M-]") (treemacs-ext:make-local-neighbour-opener-from-navigator #'treemacs-next-neighbour 4))
-
+  (define-key treemacs-mode-map (kbd "cc") (ft:make-template-expander ft:templates:component))
   (global-set-key (kbd "s-`") (lambda ()
-				(interactive)
-				(with-selected-window (treemacs-get-local-window)
-				  (treemacs-goto-parent-node)
-				  (treemacs-goto-node (treemacs-safe-button-get (treemacs-current-button) :path)))))
+                                (interactive)
+                                (with-selected-window (treemacs-get-local-window)
+                                  (treemacs-goto-parent-node)
+                                  (treemacs-goto-node (treemacs-safe-button-get (treemacs-current-button) :path)))))
   (global-set-key (kbd "s-[") (treemacs-ext:make-neighbour-opener-from-navigator #'treemacs-previous-neighbour 1))
   (global-set-key (kbd "s-]") (treemacs-ext:make-neighbour-opener-from-navigator #'treemacs-next-neighbour 1))
   (global-set-key (kbd "s-{") (treemacs-ext:make-neighbour-opener-from-navigator #'treemacs-previous-neighbour 4))
@@ -56,9 +65,9 @@
   (global-set-key (kbd "s-w") (treemacs-ext:make-line-opener-from-navigator #'treemacs-previous-line))
   (global-set-key (kbd "s-s") (treemacs-ext:make-line-opener-from-navigator #'treemacs-next-line))
   (global-set-key (kbd "s-SPC") (lambda ()
-				  (interactive)
-				  (with-selected-window (treemacs-get-local-window)
-				    (treemacs-RET-action)))))
+                                  (interactive)
+                                  (with-selected-window (treemacs-get-local-window)
+                                    (treemacs-RET-action)))))
 
 (defun treemacs-ext:make-line-opener-from-navigator (navigator)
   (lambda ()
@@ -72,14 +81,14 @@
     (interactive)
     (with-selected-window (treemacs-get-local-window)
       (cl-loop repeat count
-	       do (funcall navigator))
+               do (funcall navigator))
       (treemacs-goto-node (treemacs-safe-button-get (treemacs-current-button) :path)))))
 
 (defun treemacs-ext:make-local-neighbour-opener-from-navigator (navigator count)
   (lambda ()
     (interactive)
     (cl-loop repeat count
-	     do (funcall navigator))))
+             do (funcall navigator))))
 
 
 (defun treemacs-ext:make-node-opener (path)
@@ -105,15 +114,15 @@
 
 (defun treemacs-ext:get-recent-descendant (path)
   (cl-find-if (lambda (x) (s-starts-with-p path x))
-	      treemacs-ext:recent-project-files))
+              treemacs-ext:recent-project-files))
 
 (defun treemacs-ext:make-node-binder (key)
   (lambda ()
     (interactive)
     (let ((storage (treemacs-ext:load-binding-storage))
-	  (path (treemacs-safe-button-get (treemacs-current-button) :path)))
+          (path (treemacs-safe-button-get (treemacs-current-button) :path)))
       (treemacs-ext:save-binding-storage (cons (cons key path)
-					       (assoc-delete-all key storage)))
+                                               (assoc-delete-all key storage)))
       (global-set-key (kbd (format "s-%s" key)) (treemacs-ext:make-node-opener path)))))
 
 (defconst treemacs-ext:binding-storage-filename ".binding-storage")
@@ -121,9 +130,9 @@
 
 (defun treemacs-ext:init-bindings-from-storage ()
   (mapc (lambda (binding-pair)
-	  (cl-destructuring-bind (key . path) binding-pair
-	    (global-set-key (kbd (format "s-%s" key)) (treemacs-ext:make-node-opener path))))
-	(treemacs-ext:load-binding-storage)))
+          (cl-destructuring-bind (key . path) binding-pair
+            (global-set-key (kbd (format "s-%s" key)) (treemacs-ext:make-node-opener path))))
+        (treemacs-ext:load-binding-storage)))
 
 (defun treemacs-ext:get-binding-storage-path ()
   (projectile-expand-root treemacs-ext:binding-storage-filename))
@@ -149,12 +158,12 @@
 
 (defun treemacs-ext:load-recent-files-storage ()
   (setq treemacs-ext:recent-project-files
-	(cond
-	 ((file-exists-p (treemacs-ext:get-recent-files-storage-path))
-	  (with-temp-buffer
-	    (insert-file-contents (treemacs-ext:get-recent-files-storage-path))
-	    (read (current-buffer))))
-	 (t '()))))
+        (cond
+         ((file-exists-p (treemacs-ext:get-recent-files-storage-path))
+          (with-temp-buffer
+            (insert-file-contents (treemacs-ext:get-recent-files-storage-path))
+            (read (current-buffer))))
+         (t '()))))
 
 (provide 'treemacs-ext)
 ;;; treemacs-ext.el ends here

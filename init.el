@@ -74,10 +74,17 @@
 
 (use-package magit)
 (use-package s)
+(use-package dash)
 
 (load "global-bindings")
-(load "treemacs-ext")
 (load "utils")
+
+(use-package file-template
+  :straight (file-template :type git :host github :repo "sk1e/file-template")
+  :config
+  (mapc #'load (file-expand-wildcards "~/.emacs.d/config/file-templates/*.el")))
+
+(load "treemacs-ext")
 
 (add-hook 'prog-mode-hook #'electric-pair-mode)
 (add-hook 'prog-mode-hook #'show-paren-mode)
@@ -156,6 +163,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(css-indent-offset 2)
  '(lsp-auto-guess-root t)
  '(lsp-headerline-breadcrumb-enable nil)
  '(make-backup-files nil)
