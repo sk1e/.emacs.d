@@ -46,6 +46,7 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (delete-selection-mode 1)
+(global-auto-revert-mode 1)
 
 (setq display-time-default-load-average nil)
 (setq display-time-format "%H:%M, %a, %d")
@@ -175,6 +176,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(css-indent-offset 2)
+ '(js-indent-level 2)
  '(lsp-auto-guess-root t)
  '(lsp-headerline-breadcrumb-enable nil)
  '(make-backup-files nil)
