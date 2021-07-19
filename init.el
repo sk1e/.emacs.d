@@ -92,9 +92,16 @@
 (add-hook 'before-save-hook #'whitespace-cleanup)
 
 (use-package typescript-mode)
+
 (use-package web-mode
   :config
-  (add-to-list 'auto-mode-alist '("\\.[jt]sx\\'" . web-mode)))
+  (require 'elec-pair)
+  (add-to-list 'auto-mode-alist '("\\.[jt]sx\\'" . web-mode))
+  (add-hook 'web-mode-hook
+            (lambda ()
+              (setq-local electric-pair-pairs
+                          (cons (cons ?' ?')
+                                electric-pair-pairs)))))
 
 (use-package lsp-mode
   :bind (("C-c f" . #'lsp-format-buffer))
