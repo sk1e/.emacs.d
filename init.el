@@ -158,6 +158,10 @@
   :config
   (doom-modeline-mode 1))
 
+(use-package undo-fu
+  :bind (("C-z" . #'undo-fu-only-undo)
+         ("C-S-z" . #'undo-fu-only-redo)))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
