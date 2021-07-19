@@ -121,10 +121,13 @@
          ("C-c b" . #'helm-bookmarks)
          ("C-c i" . #'helm-imenu)))
 
- (use-package helm-lsp
+(use-package helm-lsp
   :bind (("C-c d" . #'helm-lsp-diagnostics)))
 
-(use-package helm-projectile)
+(use-package helm-projectile
+  :bind (:map projectile-command-map
+              ("p" . #'helm-projectile-switch-project)))
+
 (use-package lsp-treemacs
   :config
   (lsp-treemacs-sync-mode 1))
