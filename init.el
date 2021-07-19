@@ -47,6 +47,7 @@
 (scroll-bar-mode -1)
 (delete-selection-mode 1)
 (global-auto-revert-mode 1)
+(setq revert-without-query '(".*"))
 
 (setq display-time-default-load-average nil)
 (setq display-time-format "%H:%M, %a, %d")
