@@ -32,3 +32,5 @@
                                               (describe-function (function-called-at-point))))
 
 (global-set-key (kbd "C-`") (lambda () (interactive) (insert "`")))
+
+(global-unset-key (kbd "C-x z"))
