@@ -49,7 +49,8 @@
     (define-key treemacs-outside-map "l" #'treemacs-cleanup-litter)
     (define-key treemacs-outside-map "e" #'treemacs-edit-workspaces)
     (define-key treemacs-outside-map "s" #'treemacs-switch-workspace)
-    (define-key prog-mode-map (kbd "C-c t") treemacs-outside-map))
+    (define-key prog-mode-map (kbd "C-c t") treemacs-outside-map)
+    (define-key text-mode-map (kbd "C-c t") treemacs-outside-map))
 
   (let ((space-map (make-sparse-keymap)))
     (mapc (lambda (key) (define-key space-map (kbd key) (treemacs-ext:make-node-binder key)))
