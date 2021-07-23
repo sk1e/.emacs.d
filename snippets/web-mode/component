@@ -14,7 +14,7 @@ type Props = {}
 
 function `(containing-directory)`({}: Props) {
   return (
-    <div classname={b()}>
+    <div className={b()}>
       `(containing-directory)`
     </div>
   );
