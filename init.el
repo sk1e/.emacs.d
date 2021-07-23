@@ -108,7 +108,8 @@
                                 electric-pair-pairs)))))
 
 (use-package lsp-mode
-  :bind (("C-c f" . #'lsp-format-buffer))
+  :bind (("C-c f" . #'lsp-format-buffer)
+         ("C-c r" . #'lsp-rename))
   :config
   (add-hook 'typescript-mode-hook #'lsp)
   (add-hook 'web-mode-hook #'lsp))
@@ -134,7 +135,8 @@
          ("C-c i" . #'helm-imenu)))
 
 (use-package helm-lsp
-  :bind (("C-c d" . #'helm-lsp-diagnostics)))
+  :bind (("C-c d" . #'helm-lsp-diagnostics)
+         ("C-c a" . #'helm-lsp-code-actions)))
 
 (use-package helm-projectile
   :bind (:map projectile-command-map
@@ -193,6 +195,7 @@
  '(make-backup-files nil)
  '(safe-local-variable-values '((git-commit-major-mode . git-commit-elisp-text-mode)))
  '(standard-indent 2)
+ '(typescript-indent-level 2)
  '(web-mode-code-indent-offset 2)
  '(web-mode-enable-auto-quoting nil)
  '(web-mode-markup-indent-offset 2))
