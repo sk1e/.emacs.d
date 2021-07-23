@@ -169,7 +169,7 @@
   :config
   (yas-global-mode 1)
 
-  (add-hook 'web-mode-hook (lambda () (add-to-list 'company-backends '(company-capf company-yasnippet)))))
+  (add-hook 'web-mode-hook (lambda () (add-to-list 'company-backends '(company-capf :separate company-yasnippet)))))
 
 (use-package doom-modeline
   :config
