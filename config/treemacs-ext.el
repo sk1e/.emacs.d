@@ -43,6 +43,8 @@
   :config
   (add-hook 'treemacs-delete-file-functions #'treemacs-ext:kill-buffers-for-deleted-node)
 
+  (add-to-list 'treemacs-litter-directories "/straight")
+
   (let ((treemacs-outside-map (make-sparse-keymap)))
     (define-key treemacs-outside-map "l" #'treemacs-cleanup-litter)
     (define-key treemacs-outside-map "e" #'treemacs-edit-workspaces)
