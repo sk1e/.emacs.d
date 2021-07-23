@@ -93,6 +93,9 @@
 (add-hook 'before-save-hook #'whitespace-cleanup)
 
 (use-package typescript-mode)
+(use-package rainbow-mode
+  :config
+  (add-hook 'prog-mode-hook #'rainbow-mode))
 
 (use-package web-mode
   :config
@@ -191,6 +194,7 @@
  '(safe-local-variable-values '((git-commit-major-mode . git-commit-elisp-text-mode)))
  '(standard-indent 2)
  '(web-mode-code-indent-offset 2)
+ '(web-mode-enable-auto-quoting nil)
  '(web-mode-markup-indent-offset 2))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
