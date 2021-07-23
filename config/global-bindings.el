@@ -30,3 +30,5 @@
 (define-key emacs-lisp-mode-map (kbd "C-d") (lambda ()
                                               (interactive)
                                               (describe-function (function-called-at-point))))
+
+(global-set-key (kbd "C-`") (lambda () (interactive) (insert "`")))
