@@ -92,7 +92,10 @@
 (add-hook 'prog-mode-hook #'show-paren-mode)
 (add-hook 'before-save-hook #'whitespace-cleanup)
 
-(use-package typescript-mode)
+(use-package typescript-mode
+  :config
+  (add-hook 'typescript-mode-hook #'subword-mode))
+
 (use-package rainbow-mode
   :config
   (add-hook 'prog-mode-hook #'rainbow-mode))
@@ -101,6 +104,8 @@
   :config
   (require 'elec-pair)
   (add-to-list 'auto-mode-alist '("\\.[jt]sx\\'" . web-mode))
+
+  (add-hook 'web-mode-hook #'subword-mode)
   (add-hook 'web-mode-hook
             (lambda ()
               (setq-local electric-pair-pairs
@@ -197,6 +202,15 @@
  '(standard-indent 2)
  '(typescript-indent-level 2)
  '(web-mode-code-indent-offset 2)
+ '(web-mode-comment-formats
+   '(("java" . "/*")
+     ("javascript" . "//")
+     ("typescript" . "//")
+     ("php" . "/*")
+     ("css" . "/*")
+     ("jsx" . "//")
+     ("tsx" . "//")))
+ '(web-mode-comment-style 2)
  '(web-mode-enable-auto-quoting nil)
  '(web-mode-markup-indent-offset 2))
 (custom-set-faces
