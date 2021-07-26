@@ -58,6 +58,8 @@
 (setq create-lockfiles nil)
 (setq-default indent-tabs-mode nil)
 
+(add-hook 'minibuffer-setup-hook #'subword-mode)
+
 (add-to-list 'load-path "~/.emacs.d/config")
 
 (use-package projectile
