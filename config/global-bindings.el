@@ -34,3 +34,5 @@
 (global-set-key (kbd "C-`") (lambda () (interactive) (insert "`")))
 
 (global-unset-key (kbd "C-x z"))
+
+(global-set-key (kbd "C-c l") #'linum-mode)
