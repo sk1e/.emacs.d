@@ -95,24 +95,25 @@
 (add-hook 'before-save-hook #'whitespace-cleanup)
 
 (use-package typescript-mode
+  :init
+  (define-derived-mode typescript-tsx-mode typescript-mode "tsx")
   :config
+  (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescript-tsx-mode))
   (add-hook 'typescript-mode-hook #'subword-mode))
+
+(use-package tree-sitter
+  :hook ((typescript-mode . tree-sitter-hl-mode)
+         (typescript-tsx-mode . tree-sitter-hl-mode)))
+
+(use-package tree-sitter-langs
+  :after tree-sitter
+  :config
+  (tree-sitter-require 'tsx)
+  (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx)))
 
 (use-package rainbow-mode
   :config
   (add-hook 'prog-mode-hook #'rainbow-mode))
-
-(use-package web-mode
-  :config
-  (require 'elec-pair)
-  (add-to-list 'auto-mode-alist '("\\.[jt]sx\\'" . web-mode))
-
-  (add-hook 'web-mode-hook #'subword-mode)
-  (add-hook 'web-mode-hook
-            (lambda ()
-              (setq-local electric-pair-pairs
-                          (cons (cons ?' ?')
-                                electric-pair-pairs)))))
 
 (use-package lsp-mode
   :bind (("C-c f" . #'lsp-format-buffer)
@@ -143,7 +144,7 @@
 
 (use-package helm-lsp
   :bind (("C-c d" . #'helm-lsp-diagnostics)
-         ("C-c a" . #'helm-lsp-code-actions)))
+         ("s-a" . #'helm-lsp-code-actions)))
 
 (use-package helm-projectile
   :bind (:map projectile-command-map
@@ -175,7 +176,6 @@
 (use-package yasnippet
   :config
   (yas-global-mode 1)
-
   (add-hook 'web-mode-hook (lambda () (add-to-list 'company-backends '(company-capf :separate company-yasnippet)))))
 
 (use-package doom-modeline
@@ -226,9 +226,12 @@
  '(font-lock-function-name-face ((t (:foreground "DodgerBlue1"))))
  '(font-lock-keyword-face ((t (:foreground "slate blue"))))
  '(font-lock-string-face ((t (:foreground "forest green"))))
+ '(font-lock-type-face ((t (:foreground "DodgerBlue1"))))
  '(font-lock-variable-name-face ((t (:inherit default))))
  '(fringe ((t (:background "gray15"))))
  '(lsp-modeline-code-actions-face ((t (:foreground "dark cyan"))))
  '(lsp-treemacs-file-error ((t (:inherit nil :foreground "firebrick"))))
  '(minibuffer-prompt ((t (:foreground "SlateBlue1"))))
- '(mode-line ((t (:background "gray25" :foreground "white smoke" :box (:line-width -1 :style released-button))))))
+ '(mode-line ((t (:background "gray25" :foreground "white smoke" :box (:line-width -1 :style released-button)))))
+ '(region ((t (:extend t :background "RoyalBlue4"))))
+ '(typescript-primitive-face ((t (:inherit font-lock-type-face)))))
