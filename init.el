@@ -160,7 +160,8 @@
 (use-package restart-emacs)
 (use-package flycheck
   :bind (("<f9>" . #'flycheck-previous-error)
-         ("<f10>" . #'flycheck-next-error)))
+         ("<f10>" . #'flycheck-next-error)
+         ("C-e" . #'flycheck-explain-error-at-point)))
 
 (use-package which-key
   :config
