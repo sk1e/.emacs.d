@@ -32,6 +32,7 @@
                                               (describe-function (function-called-at-point))))
 
 (global-set-key (kbd "C-`") (lambda () (interactive) (insert "`")))
+(global-set-key (kbd "s-e") #'flycheck-explain-error-at-point)
 
 (global-unset-key (kbd "C-x z"))
 
