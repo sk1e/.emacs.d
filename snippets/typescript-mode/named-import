@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: ss-named-import
+# key: ss-named-import
+# --
+
+import { $0 } from '${1:Module}';

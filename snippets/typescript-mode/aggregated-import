@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: ss-aggregated-import
+# key: ss-aggregated-import
+# --
+
+import * as ${0:name} from '${1:Module}';

@@ -176,7 +176,20 @@
 (use-package yasnippet
   :config
   (yas-global-mode 1)
-  (add-hook 'web-mode-hook (lambda () (add-to-list 'company-backends '(company-capf :separate company-yasnippet)))))
+
+  (defun yas:ts:expand-named-import ()
+    (interactive)
+    (yas-expand-snippet (yas-lookup-snippet "ss-named-import")))
+
+  (defun yas:ts:expand-aggregated-import ()
+    (interactive)
+    (yas-expand-snippet (yas-lookup-snippet "ss-aggregated-import")))
+
+  (let ((import-keymap (make-sparse-keymap)))
+    (define-key import-keymap (kbd "n") #'yas:ts:expand-named-import)
+    (define-key import-keymap (kbd "a") #'yas:ts:expand-aggregated-import)
+
+    (define-key typescript-mode-map (kbd "C-S-i") import-keymap)))
 
 (use-package doom-modeline
   :config
