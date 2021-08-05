@@ -214,6 +214,7 @@
  '(lsp-auto-guess-root t)
  '(lsp-headerline-breadcrumb-enable nil)
  '(make-backup-files nil)
+ '(rainbow-html-colors t)
  '(safe-local-variable-values '((git-commit-major-mode . git-commit-elisp-text-mode)))
  '(standard-indent 2)
  '(typescript-indent-level 2)
