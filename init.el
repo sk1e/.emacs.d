@@ -200,6 +200,9 @@
   :bind (("C-z" . #'undo-fu-only-undo)
          ("C-S-z" . #'undo-fu-only-redo)))
 
+(use-package expand-region
+  :bind ("C-=" . #'er/expand-region))
+
 (use-package hl-todo
   :config
   (add-hook 'prog-mode-hook #'hl-todo-mode))
