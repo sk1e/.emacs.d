@@ -252,4 +252,5 @@
  '(minibuffer-prompt ((t (:foreground "SlateBlue1"))))
  '(mode-line ((t (:background "gray25" :foreground "white smoke" :box (:line-width -1 :style released-button)))))
  '(region ((t (:extend t :background "RoyalBlue4"))))
+ '(tree-sitter-hl-face:function\.call ((t (:inherit font-lock-function-name-face :foreground "SkyBlue1" :underline nil))))
  '(typescript-primitive-face ((t (:inherit font-lock-type-face)))))
