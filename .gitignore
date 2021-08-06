@@ -1,5 +1,6 @@
 auto-save-list/
-straight/
+straight/*
+!straight/versions/
 transient/
 .cache/
 .local/
@@ -7,6 +8,7 @@ transient/
 .recent-files-storage
 projectile-bookmarks.eld
 .lsp-session-v1
+.lsp-eslint-choices
 bookmarks
 .log/
 eshell/
