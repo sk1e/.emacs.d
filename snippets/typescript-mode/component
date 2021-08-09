@@ -20,6 +20,4 @@ function `(containing-directory)`({}: Props) {
   );
 }
 
-const Component = React.memo(`(containing-directory)`);
-
-export { Component as `(containing-directory)` }
+export const Component = React.memo(`(containing-directory)`);
