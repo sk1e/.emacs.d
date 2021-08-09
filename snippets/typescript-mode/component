@@ -20,4 +20,4 @@ function `(containing-directory)`({}: Props) {
   );
 }
 
-export const Component = React.memo(`(containing-directory)`);
+export const Component = React.memo(`(containing-directory)`) as typeof `(containing-directory)`;
