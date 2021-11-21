@@ -1,0 +1,20 @@
+# -*- mode: snippet -*-
+# name: ss-feature-index
+# key: ss-feature-index
+# --
+import { makeFeature } from 'utils/Feature';
+
+import i18nData from './i18n.json';
+
+export const feature = makeFeature({
+  name: '`(containing-directory)`',
+  componentModuleLoader: () =>
+    import(
+      /* webpackChunkName: "`(camel-case->lisp-case (containing-directory))`" */
+      './Component'
+    ),
+  i18nData,
+  subfeatures: [],
+});
+
+export const Component = feature.Component;

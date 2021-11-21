@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ss-feature-i18n
+# key: ss-feature-i18n
+# --
+{
+  "en": {},
+  "ru": {}
+}

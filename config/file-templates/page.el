@@ -1,12 +1,12 @@
-(setq ft:templates:component
+(setq ft:templates:page
       (make-ft:template
-       :name "Component"
+       :name "Page"
        :node (make-ft:directory-node
               :get-name (lambda (template-instance-name) (format "%s" (s-upper-camel-case template-instance-name)))
               :children (list
                       (make-ft:file-node
                        :get-name (lambda (template-instance-name) "index.tsx")
-                       :content (make-ft:snippet-content :name "ss-comp" :mode 'typescript-mode))
+                       :content (make-ft:snippet-content :name "ss-page-index" :mode 'typescript-mode))
                       (make-ft:file-node
-                       :get-name (lambda (template-instance-name) "style.scss")
-                       :content (make-ft:snippet-content :name "style" :mode 'scss-mode))))))
+                       :get-name (lambda (template-instance-name) "features.tsx")
+                       :content (make-ft:snippet-content :name "ss-page-features" :mode 'typescript-mode))))))

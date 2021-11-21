@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: ss-page-features
+# key: ss-page-features
+# --
+export * as feature from 'features/'

@@ -1,0 +1,26 @@
+# -*- mode: snippet -*-
+# name: ss-page-index
+# key: ss-page-index
+# --
+import React from 'react';
+
+import { makePage } from 'utils/Page';
+
+import { routeTree } from '../routeTree';
+import * as features from './features';
+
+
+function `(containing-directory)`() {
+  return (
+    <div>
+      `(containing-directory)` page
+    </div>
+  );
+}
+
+export const Component = makePage({
+  path: routeTree,
+  routeProps: { exact: true },
+  Component: React.memo(`(containing-directory)`),
+  features: Object.values(features).map(x => x.feature),
+});
