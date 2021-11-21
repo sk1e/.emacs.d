@@ -62,6 +62,11 @@
 
 (add-to-list 'load-path "~/.emacs.d/config")
 
+(add-hook
+ 'scss-mode-hook
+ (lambda ()
+   (add-to-list 'company-backends '(:separate company-capf company-yasnippet))))
+
 (use-package projectile
   :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
@@ -98,8 +103,9 @@
   :init
   (define-derived-mode typescript-tsx-mode typescript-mode "tsx")
   :config
-  (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescript-tsx-mode))
-  (add-hook 'typescript-mode-hook #'subword-mode))
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-tsx-mode))
+  (add-hook 'typescript-mode-hook #'subword-mode)
+  (add-hook 'typescript-tsx-mode-hook #'subword-mode))
 
 (use-package tree-sitter
   :hook ((typescript-mode . tree-sitter-hl-mode)
@@ -190,7 +196,6 @@
   (let ((import-keymap (make-sparse-keymap)))
     (define-key import-keymap (kbd "n") #'yas:ts:expand-named-import)
     (define-key import-keymap (kbd "a") #'yas:ts:expand-aggregated-import)
-
     (define-key typescript-mode-map (kbd "C-S-i") import-keymap)))
 
 (use-package doom-modeline
@@ -224,6 +229,7 @@
  '(safe-local-variable-values '((git-commit-major-mode . git-commit-elisp-text-mode)))
  '(standard-indent 2)
  '(typescript-indent-level 2)
+ '(warning-suppress-types '((yasnippet backquote-change)))
  '(web-mode-code-indent-offset 2)
  '(web-mode-comment-formats
    '(("java" . "/*")
