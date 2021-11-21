@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ss-bg
+# key: ss-bg
+# --
+`(scss:add-style-use-if-none)`
+@include colors.themed-bg(${1:level}) using ($color) {
+  ${0:prop}: $color;
+}

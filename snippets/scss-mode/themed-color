@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ss-color
+# key: ss-color
+# --
+`(scss:add-style-use-if-none)`
+@include colors.themed-color('${1:color}') using ($color) {
+  ${0:prop}: $color;
+}

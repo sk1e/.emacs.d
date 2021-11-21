@@ -1,6 +1,18 @@
 (defun buffer-file-name/no-extension ()
   (file-name-nondirectory (file-name-sans-extension (buffer-file-name))))
 
+(defun scss:add-style-use-if-none ()
+  (save-excursion
+    (unless (re-search-backward (regexp-quote "@use \"style/colors\";") nil t)
+      (cond
+       ((re-search-backward (regexp-quote "@use") nil t)
+        (message ">> found use")
+        (end-of-line) (insert "\n@use \"style/colors\";\n" ))
+       (t
+        (goto-char 1)
+        (message ">> insert new")
+        (insert "@use \"style/colors\";\n\n" ))))))
+
 (defun camel-case->lisp-case (str)
   (let ((case-fold-search nil))
     (mapconcat (lambda (x) (downcase (car x)))

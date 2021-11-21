@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ss-rule
+# key: ss-rule
+# --
+`(scss:add-style-use-if-none)`
+@include colors.themed-rule('${1:theme}') {
+  $0
+}
