@@ -38,7 +38,7 @@
           files-with-buffers-to-kill)))
 
 (use-package treemacs
-  :bind (("s-t" . treemacs-ext:show-tree))
+  :bind (("M-t" . treemacs-ext:show-tree))
   :requires (projectile file-template)
   :config
   (add-hook 'treemacs-delete-file-functions #'treemacs-ext:kill-buffers-for-deleted-node)
@@ -59,23 +59,23 @@
   (define-key treemacs-mode-map (kbd "`") #'treemacs-goto-parent-node)
   (define-key treemacs-mode-map (kbd "[") (treemacs-ext:make-local-neighbour-opener-from-navigator #'treemacs-previous-neighbour 1))
   (define-key treemacs-mode-map (kbd "]") (treemacs-ext:make-local-neighbour-opener-from-navigator #'treemacs-next-neighbour 1))
-  (define-key treemacs-mode-map (kbd "M-[") (treemacs-ext:make-local-neighbour-opener-from-navigator #'treemacs-previous-neighbour 4))
-  (define-key treemacs-mode-map (kbd "M-]") (treemacs-ext:make-local-neighbour-opener-from-navigator #'treemacs-next-neighbour 4))
+  ;; (define-key treemacs-mode-map (kbd "M-[") (treemacs-ext:make-local-neighbour-opener-from-navigator #'treemacs-previous-neighbour 4))
+  ;; (define-key treemacs-mode-map (kbd "M-]") (treemacs-ext:make-local-neighbour-opener-from-navigator #'treemacs-next-neighbour 4))
   (define-key treemacs-mode-map (kbd "tc") (ft:make-template-expander ft:templates:component))
   (define-key treemacs-mode-map (kbd "tf") (ft:make-template-expander ft:templates:feature))
   (define-key treemacs-mode-map (kbd "tp") (ft:make-template-expander ft:templates:page))
-  (global-set-key (kbd "s-`") (lambda ()
-                                (interactive)
-                                (with-selected-window (treemacs-get-local-window)
-                                  (treemacs-goto-parent-node)
-                                  (treemacs-goto-node (treemacs-safe-button-get (treemacs-current-button) :path)))))
-  (global-set-key (kbd "s-[") (treemacs-ext:make-neighbour-opener-from-navigator #'treemacs-previous-neighbour 1))
-  (global-set-key (kbd "s-]") (treemacs-ext:make-neighbour-opener-from-navigator #'treemacs-next-neighbour 1))
-  (global-set-key (kbd "s-{") (treemacs-ext:make-neighbour-opener-from-navigator #'treemacs-previous-neighbour 4))
-  (global-set-key (kbd "s-}") (treemacs-ext:make-neighbour-opener-from-navigator #'treemacs-next-neighbour 4))
-  (global-set-key (kbd "s-w") (treemacs-ext:make-line-opener-from-navigator #'treemacs-previous-line))
-  (global-set-key (kbd "s-s") (treemacs-ext:make-line-opener-from-navigator #'treemacs-next-line))
-  (global-set-key (kbd "s-SPC") (lambda ()
+  ;; (global-set-key (kbd "s-`") (lambda ()
+  ;;                               (interactive)
+  ;;                               (with-selected-window (treemacs-get-local-window)
+  ;;                                 (treemacs-goto-parent-node)
+  ;;                                 (treemacs-goto-node (treemacs-safe-button-get (treemacs-current-button) :path)))))
+  (global-set-key (kbd "M-[") (treemacs-ext:make-neighbour-opener-from-navigator #'treemacs-previous-neighbour 1))
+  (global-set-key (kbd "M-]") (treemacs-ext:make-neighbour-opener-from-navigator #'treemacs-next-neighbour 1))
+  (global-set-key (kbd "M-{") (treemacs-ext:make-neighbour-opener-from-navigator #'treemacs-previous-neighbour 4))
+  (global-set-key (kbd "M-}") (treemacs-ext:make-neighbour-opener-from-navigator #'treemacs-next-neighbour 4))
+  (global-set-key (kbd "M-w") (treemacs-ext:make-line-opener-from-navigator #'treemacs-previous-line))
+  (global-set-key (kbd "M-s") (treemacs-ext:make-line-opener-from-navigator #'treemacs-next-line))
+  (global-set-key (kbd "M-SPC") (lambda ()
                                   (interactive)
                                   (with-selected-window (treemacs-get-local-window)
                                     (treemacs-RET-action)))))
@@ -100,7 +100,6 @@
     (interactive)
     (cl-loop repeat count
              do (funcall navigator))))
-
 
 (defun treemacs-ext:make-node-opener (path)
   (lambda ()
@@ -134,7 +133,7 @@
           (path (treemacs-safe-button-get (treemacs-current-button) :path)))
       (treemacs-ext:save-binding-storage (cons (cons key path)
                                                (assoc-delete-all key storage)))
-      (global-set-key (kbd (format "s-%s" key)) (treemacs-ext:make-node-opener path)))))
+      (global-set-key (kbd (format "M-%s" key)) (treemacs-ext:make-node-opener path)))))
 
 (defconst treemacs-ext:binding-storage-filename ".binding-storage")
 (defconst treemacs-ext:recent-files-storage-filename ".recent-files-storage")
@@ -142,7 +141,7 @@
 (defun treemacs-ext:init-bindings-from-storage ()
   (mapc (lambda (binding-pair)
           (cl-destructuring-bind (key . path) binding-pair
-            (global-set-key (kbd (format "s-%s" key)) (treemacs-ext:make-node-opener path))))
+            (global-set-key (kbd (format "M-%s" key)) (treemacs-ext:make-node-opener path))))
         (treemacs-ext:load-binding-storage)))
 
 (defun treemacs-ext:get-binding-storage-path ()

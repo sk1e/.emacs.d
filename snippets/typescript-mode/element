@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
 # name: ss-element
 # key: ss-element
-# binding: s-e
+# binding: C-e
 # --
 
  <${1:div} ${2:className={b('${3:element}')}}>

@@ -48,6 +48,7 @@
 (delete-selection-mode 1)
 (global-auto-revert-mode 1)
 (setq revert-without-query '(".*"))
+(setq max-lisp-eval-depth 10000)
 
 (setq display-time-default-load-average nil)
 (setq display-time-format "%H:%M, %a, %d")
@@ -137,7 +138,6 @@
          ("C-h f" . #'counsel-describe-function)
          ("C-h v" . #'counsel-describe-variable)
          ("<menu>" . #'counsel-M-x)
-         ("M-x" . #'counsel-M-x)
          ("C-s" . #'swiper)))
 
 (load "ivy-rich-config")
@@ -151,7 +151,7 @@
 
 (use-package helm-lsp
   :bind (("C-c d" . #'helm-lsp-diagnostics)
-         ("s-a" . #'helm-lsp-code-actions)))
+         ("C-\\" . #'helm-lsp-code-actions)))
 
 (use-package helm-projectile
   :bind (:map projectile-command-map
@@ -168,7 +168,7 @@
 (use-package flycheck
   :bind (("<f9>" . #'flycheck-previous-error)
          ("<f10>" . #'flycheck-next-error)
-         ("C-e" . #'flycheck-explain-error-at-point)))
+         ("M-e" . #'flycheck-explain-error-at-point)))
 
 (use-package which-key
   :config

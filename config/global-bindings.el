@@ -1,8 +1,8 @@
 (global-set-key (kbd "C-;") #'eval-last-sexp)
 
-(global-set-key (kbd "s-x") #'clipboard-kill-region)
-(global-set-key (kbd "s-c") #'clipboard-kill-ring-save)
-(global-set-key (kbd "s-v") #'clipboard-yank)
+(global-set-key (kbd "M-x") #'clipboard-kill-region)
+(global-set-key (kbd "M-c") #'clipboard-kill-ring-save)
+(global-set-key (kbd "M-v") #'clipboard-yank)
 
 (global-set-key
  (kbd "`")
@@ -22,10 +22,10 @@
 (global-set-key (kbd "C-.") (lambda () (interactive) (scroll-up 3)))
 
 
-(global-set-key (kbd "s-<f11>") #'xref-find-definitions)
-(global-set-key (kbd "s-<f12>") #'xref-pop-marker-stack)
+(global-set-key (kbd "M-<f11>") #'xref-find-definitions)
+(global-set-key (kbd "M-<f12>") #'xref-pop-marker-stack)
 
-(global-set-key (kbd "s-=") #'company-complete)
+(global-set-key (kbd "M-=") #'company-complete)
 
 (define-key emacs-lisp-mode-map (kbd "C-d") (lambda ()
                                               (interactive)
