@@ -1,5 +1,5 @@
 (setq ft:templates:feature
-      (make-ft:template
+      (make-ft:parameterized-template
        :name "Feature"
        :node (make-ft:directory-node
               :get-name (lambda (template-instance-name) (format "%s" (s-upper-camel-case template-instance-name)))

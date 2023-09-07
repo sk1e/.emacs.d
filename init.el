@@ -82,7 +82,12 @@
   :config
   (add-hook 'prog-mode-hook #'company-mode))
 
-(use-package magit)
+(use-package magit
+  :config
+  (let ((magit-keymap (make-sparse-keymap)))
+    (define-key magit-keymap (kbd "b") #'magit-blame)
+    (define-key prog-mode-map (kbd "C-c m") magit-keymap)))
+
 (use-package s)
 (use-package dash)
 
@@ -106,7 +111,12 @@
   :config
   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-tsx-mode))
   (add-hook 'typescript-mode-hook #'subword-mode)
-  (add-hook 'typescript-tsx-mode-hook #'subword-mode))
+  (add-hook 'typescript-tsx-mode-hook #'subword-mode)
+
+  (let ((extra-map (make-sparse-keymap)))
+    (define-key extra-map (kbd "r") #'ts:insert-i18n-data-relative-import)
+    (define-key extra-map (kbd "a") #'ts:insert-i18n-data-absolute-import)
+    (define-key typescript-mode-map (kbd "C-c e") extra-map)))
 
 (use-package tree-sitter
   :hook ((typescript-mode . tree-sitter-hl-mode)
@@ -128,7 +138,9 @@
          ("C-c w" . #'lsp-workspace-restart))
   :config
   (add-hook 'typescript-mode-hook #'lsp)
-  (add-hook 'web-mode-hook #'lsp))
+  (add-hook 'web-mode-hook #'lsp)
+  ;; (setq lsp-clients-typescript--)
+  )
 
 (use-package lsp-ui)
 
@@ -148,6 +160,11 @@
   :bind (("C-x b" . #'helm-buffers-list)
          ("C-c b" . #'helm-bookmarks)
          ("C-c i" . #'helm-imenu)))
+
+(use-package telega
+  :config
+  (setq telega-server-libs-prefix "/home/kotik/Projects/td/build/td")
+  )
 
 (use-package helm-lsp
   :bind (("C-c d" . #'helm-lsp-diagnostics)
@@ -213,6 +230,18 @@
   :config
   (add-hook 'prog-mode-hook #'hl-todo-mode))
 
+(use-package haskell-mode)
+
+(use-package lsp-haskell
+  :config
+  (add-hook 'haskell-mode-hook #'lsp)
+  (add-hook 'haskell-mode-hook #'subword-mode))
+
+(use-package bm
+  :bind (("M-[" . #'bm-previous)
+         ("M-]" . #'bm-next)
+         ("M-p" . #'bm-toggle)))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -221,14 +250,17 @@
  '(css-indent-offset 2)
  '(js-indent-level 2)
  '(lsp-auto-guess-root t)
+ '(lsp-clients-typescript-preferences '(jsxAttributeCompletionStyle "none"))
  '(lsp-file-watch-ignored-directories
-   '("[/\\\\]\\.git\\'" "[/\\\\]\\.github\\'" "[/\\\\]\\.circleci\\'" "[/\\\\]\\.hg\\'" "[/\\\\]\\.bzr\\'" "[/\\\\]_darcs\\'" "[/\\\\]\\.svn\\'" "[/\\\\]_FOSSIL_\\'" "[/\\\\]\\.idea\\'" "[/\\\\]\\.ensime_cache\\'" "[/\\\\]\\.eunit\\'" "[/\\\\]node_modules" "[/\\\\]\\.yarn\\'" "[/\\\\]\\.fslckout\\'" "[/\\\\]\\.tox\\'" "[/\\\\]dist\\'" "[/\\\\]dist-newstyle\\'" "[/\\\\]\\.stack-work\\'" "[/\\\\]\\.bloop\\'" "[/\\\\]\\.metals\\'" "[/\\\\]target\\'" "[/\\\\]\\.ccls-cache\\'" "[/\\\\]\\.vscode\\'" "[/\\\\]\\.deps\\'" "[/\\\\]build-aux\\'" "[/\\\\]autom4te.cache\\'" "[/\\\\]\\.reference\\'" "[/\\\\]\\.lsp\\'" "[/\\\\]\\.clj-kondo\\'" "[/\\\\]\\.shadow-cljs\\'" "[/\\\\]\\.babel_cache\\'" "[/\\\\]\\.cpcache\\'" "[/\\\\]bin/Debug\\'" "[/\\\\]obj\\'" "[/\\\\]_opam\\'" "[/\\\\]_build\\'" "[/\\\\]\\.direnv\\'" "[/\\\\]\\.cache\\'"))
+   '("[/\\\\]\\.git\\'" "[/\\\\]\\.github\\'" "[/\\\\]\\.circleci\\'" "[/\\\\]\\.hg\\'" "[/\\\\]\\.bzr\\'" "[/\\\\]_darcs\\'" "[/\\\\]\\.svn\\'" "[/\\\\]_FOSSIL_\\'" "[/\\\\]\\.idea\\'" "[/\\\\]\\.ensime_cache\\'" "[/\\\\]\\.eunit\\'" "[/\\\\]node_modules" "[/\\\\]\\.yarn\\'" "[/\\\\]\\.fslckout\\'" "[/\\\\]\\.tox\\'" "[/\\\\]dist\\'" "[/\\\\]dist-newstyle\\'" "[/\\\\]\\.stack-work\\'" "[/\\\\]\\.bloop\\'" "[/\\\\]\\.metals\\'" "[/\\\\]target\\'" "[/\\\\]\\.ccls-cache\\'" "[/\\\\]\\.vscode\\'" "[/\\\\]\\.deps\\'" "[/\\\\]build-aux\\'" "[/\\\\]autom4te.cache\\'" "[/\\\\]\\.reference\\'" "[/\\\\]\\.lsp\\'" "[/\\\\]\\.clj-kondo\\'" "[/\\\\]\\.shadow-cljs\\'" "[/\\\\]\\.babel_cache\\'" "[/\\\\]\\.cpcache\\'" "[/\\\\]bin/Debug\\'" "[/\\\\]obj\\'" "[/\\\\]_opam\\'" "[/\\\\]_build\\'" "[/\\\\]\\.direnv\\'" "[/\\\\]\\.cache\\'" "[/\\\\]\\.straight\\'"))
  '(lsp-headerline-breadcrumb-enable nil)
+ '(magit-refs-margin '(t age magit-log-margin-width t 18))
  '(make-backup-files nil)
  '(rainbow-html-colors t)
  '(safe-local-variable-values '((git-commit-major-mode . git-commit-elisp-text-mode)))
  '(standard-indent 2)
  '(typescript-indent-level 2)
+ '(warning-minimum-level :error)
  '(warning-suppress-types '((yasnippet backquote-change)))
  '(web-mode-code-indent-offset 2)
  '(web-mode-comment-formats
@@ -263,3 +295,4 @@
  '(region ((t (:extend t :background "RoyalBlue4"))))
  '(tree-sitter-hl-face:function\.call ((t (:inherit font-lock-function-name-face :foreground "SkyBlue1" :underline nil))))
  '(typescript-primitive-face ((t (:inherit font-lock-type-face)))))
+(put 'downcase-region 'disabled nil)

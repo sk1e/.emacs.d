@@ -3,6 +3,7 @@
 (global-set-key (kbd "M-x") #'clipboard-kill-region)
 (global-set-key (kbd "M-c") #'clipboard-kill-ring-save)
 (global-set-key (kbd "M-v") #'clipboard-yank)
+(global-set-key (kbd "s-v") #'clipboard-yank)
 
 (global-set-key
  (kbd "`")
@@ -26,6 +27,7 @@
 (global-set-key (kbd "M-<f12>") #'xref-pop-marker-stack)
 
 (global-set-key (kbd "M-=") #'company-complete)
+(global-set-key (kbd "C-x -") #'kmacro-call-macro)
 
 (define-key emacs-lisp-mode-map (kbd "C-d") (lambda ()
                                               (interactive)

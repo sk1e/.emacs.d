@@ -4,7 +4,7 @@
 # --
 import React from 'react';
 
-import { makePage } from 'utils/Page';
+import { makePage } from 'services/Page';
 
 import { routeTree } from '../routeTree';
 import * as features from './features';

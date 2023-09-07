@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: ss-header
+# key: ss-header
+# --
+
+`(scss:add-sizes-use-if-none)`@include sizes.header-${1:};$0

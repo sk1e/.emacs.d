@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ss-device
+# key: ss-device
+# --
+
+`(scss:add-device-use-if-none)`@include device.rule('${1:mobile}') {
+  $0
+}

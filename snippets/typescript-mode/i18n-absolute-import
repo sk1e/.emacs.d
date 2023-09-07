@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: ss-i18n-absolute-import
+# key: ss-i18n-absolute-import
+# --
+
+import i18nData from '`(get-feature-absolute-path)`/i18n.json';

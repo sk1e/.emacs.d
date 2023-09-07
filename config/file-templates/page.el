@@ -1,5 +1,5 @@
 (setq ft:templates:page
-      (make-ft:template
+      (make-ft:parameterized-template
        :name "Page"
        :node (make-ft:directory-node
               :get-name (lambda (template-instance-name) (format "%s" (s-upper-camel-case template-instance-name)))

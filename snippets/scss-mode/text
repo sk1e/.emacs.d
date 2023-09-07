@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: ss-text
+# key: ss-text
+# --
+
+`(scss:add-sizes-use-if-none)`@include sizes.text-${1:};$0

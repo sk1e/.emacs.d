@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: ss-i18n-shared-references
+# key: ss-i18n-shared-references
+# --
+import { makeSharedEntryReference } from 'services/I18n/makeEntryReference';
+
+export const $1Reference = makeSharedEntryReference(
+  data => data['$0'],
+);

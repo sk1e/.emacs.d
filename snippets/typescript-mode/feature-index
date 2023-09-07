@@ -2,7 +2,7 @@
 # name: ss-feature-index
 # key: ss-feature-index
 # --
-import { makeFeature } from 'utils/Feature';
+import { makeFeature } from 'services/Feature';
 
 import i18nData from './i18n.json';
 
