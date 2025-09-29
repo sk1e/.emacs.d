@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: ss-simple-feature-index
+# key: ss-simple-feature-index
+# --
+import { makeFeature } from 'services/Feature';
+
+export const feature = makeFeature({
+  name: '`(containing-directory)`',
+  componentModuleLoader: () =>
+    import(
+      /* webpackChunkName: "`(camel-case->lisp-case (containing-directory))`" */
+      './Component'
+    ),
+});
+
+export const Component = feature.Component;

@@ -5,6 +5,8 @@
 (global-set-key (kbd "M-v") #'clipboard-yank)
 (global-set-key (kbd "s-v") #'clipboard-yank)
 
+(global-set-key (kbd "s-k") #'profiler-report)
+
 (global-set-key
  (kbd "`")
  (lambda ()

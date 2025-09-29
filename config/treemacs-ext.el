@@ -62,7 +62,7 @@
   ;; (define-key treemacs-mode-map (kbd "M-[") (treemacs-ext:make-local-neighbour-opener-from-navigator #'treemacs-previous-neighbour 4))
   ;; (define-key treemacs-mode-map (kbd "M-]") (treemacs-ext:make-local-neighbour-opener-from-navigator #'treemacs-next-neighbour 4))
   (define-key treemacs-mode-map (kbd "tc") (ft:make-template-expander ft:templates:component))
-  (define-key treemacs-mode-map (kbd "tf") (ft:make-template-expander ft:templates:feature))
+  (define-key treemacs-mode-map (kbd "tf") (ft:make-template-expander ft:templates:simple-feature))
   (define-key treemacs-mode-map (kbd "tp") (ft:make-template-expander ft:templates:page))
   (define-key treemacs-mode-map (kbd "ti") (ft:make-template-expander ft:templates:i18n-shared-references))
   ;; (global-set-key (kbd "s-`") (lambda ()
