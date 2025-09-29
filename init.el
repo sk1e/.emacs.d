@@ -1,4 +1,4 @@
-;;; init.el --- emacs config initialization file   -*- lexical-binding: t; -*-
+;; init.el --- emacs config initialization file   -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2021  kotik
 
@@ -29,12 +29,15 @@
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
         (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
          'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
@@ -55,6 +58,9 @@
 
 (display-time-mode)
 
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+
 (setq auto-save-default nil)
 (setq create-lockfiles nil)
 (setq-default indent-tabs-mode nil)
@@ -72,7 +78,11 @@
   :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (setq projectile-project-search-path '("~/Projects/"))
+  (setq projectile-enable-caching t)
   (projectile-global-mode)
+
+  (projectile-track-known-projects-find-file-hook)
+
   (add-hook 'projectile-after-switch-project-hook
             #'treemacs-ext:init-bindings-from-storage)
   (add-hook 'projectile-after-switch-project-hook
@@ -139,8 +149,9 @@
   :config
   (add-hook 'typescript-mode-hook #'lsp)
   (add-hook 'web-mode-hook #'lsp)
-  ;; (setq lsp-clients-typescript--)
-  )
+  (setq lsp-ui-doc-show-with-cursor t)
+
+  (setq lsp-javascript-completions-complete-function-calls nil))
 
 (use-package lsp-ui)
 
@@ -160,11 +171,6 @@
   :bind (("C-x b" . #'helm-buffers-list)
          ("C-c b" . #'helm-bookmarks)
          ("C-c i" . #'helm-imenu)))
-
-(use-package telega
-  :config
-  (setq telega-server-libs-prefix "/home/kotik/Projects/td/build/td")
-  )
 
 (use-package helm-lsp
   :bind (("C-c d" . #'helm-lsp-diagnostics)
@@ -195,8 +201,9 @@
 (use-package drag-stuff
   :bind (("M-<up>" . #'drag-stuff-up)
          ("M-<down>" . #'drag-stuff-down)
-         ("M-<left>" . #'drag-stuff-left)
-         ("M-<right>" . #'drag-stuff-right)))
+         ;; ("M-<left>" . #'drag-stuff-left)
+         ;; ("M-<right>" . #'drag-stuff-right)
+         ))
 
 (use-package yasnippet
   :config
@@ -219,6 +226,14 @@
   :config
   (doom-modeline-mode 1))
 
+(use-package nerd-icons
+  ;; :custom
+  ;; The Nerd Font you want to use in GUI
+  ;; "Symbols Nerd Font Mono" is the default and is recommended
+  ;; but you can use any other Nerd Font if you want
+  ;; (nerd-icons-font-family "Symbols Nerd Font Mono")
+  )
+
 (use-package undo-fu
   :bind (("C-z" . #'undo-fu-only-undo)
          ("C-S-z" . #'undo-fu-only-redo)))
@@ -230,17 +245,28 @@
   :config
   (add-hook 'prog-mode-hook #'hl-todo-mode))
 
-(use-package haskell-mode)
+;; (use-package haskell-mode)
 
-(use-package lsp-haskell
-  :config
-  (add-hook 'haskell-mode-hook #'lsp)
-  (add-hook 'haskell-mode-hook #'subword-mode))
+(use-package gnu-elpa-keyring-update)
+
+;; (use-package lsp-haskell
+;;   :config
+;;   (add-hook 'haskell-mode-hook #'lsp)
+;;   (add-hook 'haskell-mode-hook #'subword-mode))
 
 (use-package bm
   :bind (("M-[" . #'bm-previous)
          ("M-]" . #'bm-next)
          ("M-p" . #'bm-toggle)))
+
+
+(use-package telega)
+
+(use-package smartparens
+  :bind (("M-<delete>" . #'sp-unwrap-sexp)
+         ("M-S-<right>" . #'sp-select-next-thing)
+         ("M-S-<left>" . #'sp-select-previous-thing)))
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -254,6 +280,8 @@
  '(lsp-file-watch-ignored-directories
    '("[/\\\\]\\.git\\'" "[/\\\\]\\.github\\'" "[/\\\\]\\.circleci\\'" "[/\\\\]\\.hg\\'" "[/\\\\]\\.bzr\\'" "[/\\\\]_darcs\\'" "[/\\\\]\\.svn\\'" "[/\\\\]_FOSSIL_\\'" "[/\\\\]\\.idea\\'" "[/\\\\]\\.ensime_cache\\'" "[/\\\\]\\.eunit\\'" "[/\\\\]node_modules" "[/\\\\]\\.yarn\\'" "[/\\\\]\\.fslckout\\'" "[/\\\\]\\.tox\\'" "[/\\\\]dist\\'" "[/\\\\]dist-newstyle\\'" "[/\\\\]\\.stack-work\\'" "[/\\\\]\\.bloop\\'" "[/\\\\]\\.metals\\'" "[/\\\\]target\\'" "[/\\\\]\\.ccls-cache\\'" "[/\\\\]\\.vscode\\'" "[/\\\\]\\.deps\\'" "[/\\\\]build-aux\\'" "[/\\\\]autom4te.cache\\'" "[/\\\\]\\.reference\\'" "[/\\\\]\\.lsp\\'" "[/\\\\]\\.clj-kondo\\'" "[/\\\\]\\.shadow-cljs\\'" "[/\\\\]\\.babel_cache\\'" "[/\\\\]\\.cpcache\\'" "[/\\\\]bin/Debug\\'" "[/\\\\]obj\\'" "[/\\\\]_opam\\'" "[/\\\\]_build\\'" "[/\\\\]\\.direnv\\'" "[/\\\\]\\.cache\\'" "[/\\\\]\\.straight\\'"))
  '(lsp-headerline-breadcrumb-enable nil)
+ '(lsp-javascript-preferences-rename-shorthand-properties nil)
+ '(lsp-ui-doc-position 'bottom)
  '(magit-refs-margin '(t age magit-log-margin-width t 18))
  '(make-backup-files nil)
  '(rainbow-html-colors t)
@@ -288,11 +316,12 @@
  '(font-lock-type-face ((t (:foreground "DodgerBlue1"))))
  '(font-lock-variable-name-face ((t (:inherit default))))
  '(fringe ((t (:background "gray15"))))
+ '(helm-ff-directory ((t (:extend t :foreground "gainsboro"))))
  '(lsp-modeline-code-actions-face ((t (:foreground "dark cyan"))))
  '(lsp-treemacs-file-error ((t (:inherit nil :foreground "firebrick"))))
  '(minibuffer-prompt ((t (:foreground "SlateBlue1"))))
  '(mode-line ((t (:background "gray25" :foreground "white smoke" :box (:line-width -1 :style released-button)))))
  '(region ((t (:extend t :background "RoyalBlue4"))))
- '(tree-sitter-hl-face:function\.call ((t (:inherit font-lock-function-name-face :foreground "SkyBlue1" :underline nil))))
+ '(tree-sitter-hl-face:function.call ((t (:inherit font-lock-function-name-face :foreground "SkyBlue1" :underline nil))))
  '(typescript-primitive-face ((t (:inherit font-lock-type-face)))))
 (put 'downcase-region 'disabled nil)
